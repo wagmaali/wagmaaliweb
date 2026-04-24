@@ -1,0 +1,315 @@
+import React, { useState, useEffect } from 'react';
+import { MessageCircle, Star, Menu, X, CalendarHeart, Globe2, CreditCard, Shield } from 'lucide-react';
+
+const App = () => {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  // Handle scroll effect for navbar
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToSection = (id) => {
+    setMobileMenuOpen(false);
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const navLinks = [
+    { name: 'Home', id: 'home' },
+    { name: 'About Wagma', id: 'about' },
+    { name: 'Testimonials', id: 'testimonials' },
+    { name: 'Book a Session', id: 'booking' },
+  ];
+
+  const testimonials = [
+    {
+      name: "Anonymous Client",
+      text: "Wagma created a space where I finally felt heard without judgment. Her relatable approach made all the messy feelings manageable. Truly a safe space.",
+      rating: 5
+    },
+    {
+      name: "S. Khan",
+      text: "Therapy felt daunting until I found Dear Thought. The perfect balance of clinical expertise and genuine Gen-Z empathy.",
+      rating: 5
+    },
+    {
+      name: "M. A.",
+      text: "Having someone who understands cultural nuances and speaks my language (Urdu/Pashto) was a game changer for my healing journey.",
+      rating: 5
+    }
+  ];
+
+  return (
+    <div className="min-h-screen bg-[#fdfbf7] text-teal-950 font-sans selection:bg-amber-200 selection:text-teal-900 scroll-smooth">
+      
+      {/* Navigation */}
+      <nav className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white/90 backdrop-blur-md shadow-sm py-3' : 'bg-transparent py-5'}`}>
+        <div className="max-w-6xl mx-auto px-6 flex justify-between items-center">
+          <div className="flex items-center gap-3 cursor-pointer" onClick={() => scrollToSection('home')}>
+            <img 
+              src="Logo.png" 
+              alt="Dear Thought Logo" 
+              className="w-12 h-12 rounded-full object-cover shadow-sm border-2 border-white"
+            />
+            <span className="font-bold text-xl tracking-tight text-teal-800">Dear Thought</span>
+          </div>
+
+          {/* Desktop Nav */}
+          <div className="hidden md:flex gap-8 items-center font-medium">
+            {navLinks.map((link) => (
+              <button 
+                key={link.id} 
+                onClick={() => scrollToSection(link.id)}
+                className="text-teal-800 hover:text-amber-500 transition-colors duration-200"
+              >
+                {link.name}
+              </button>
+            ))}
+            <button 
+              onClick={() => scrollToSection('booking')}
+              className="bg-amber-400 hover:bg-amber-500 text-teal-900 px-6 py-2 rounded-full font-bold transition-transform hover:scale-105 shadow-sm"
+            >
+              Let's Talk
+            </button>
+          </div>
+
+          {/* Mobile Toggle */}
+          <button className="md:hidden text-teal-800" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+            {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+          </button>
+        </div>
+
+        {/* Mobile Nav */}
+        {mobileMenuOpen && (
+          <div className="md:hidden absolute top-full left-0 w-full bg-white shadow-lg border-t border-teal-50 py-4 px-6 flex flex-col gap-4">
+            {navLinks.map((link) => (
+              <button 
+                key={link.id} 
+                onClick={() => scrollToSection(link.id)}
+                className="text-left text-teal-800 font-medium py-2 border-b border-teal-50"
+              >
+                {link.name}
+              </button>
+            ))}
+          </div>
+        )}
+      </nav>
+
+      {/* Hero Section */}
+      <section id="home" className="relative pt-32 pb-20 md:pt-40 md:pb-32 px-6 overflow-hidden">
+        {/* Decorative background blobs based on your color palette */}
+        <div className="absolute top-[-10%] left-[-10%] w-96 h-96 bg-amber-200 rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-blob"></div>
+        <div className="absolute top-[20%] right-[-10%] w-96 h-96 bg-orange-300 rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-blob animation-delay-2000"></div>
+        
+        <div className="max-w-6xl mx-auto flex flex-col-reverse md:flex-row items-center gap-12 relative z-10">
+          <div className="w-full md:w-1/2 flex flex-col gap-6 text-center md:text-left">
+            <div className="inline-flex items-center gap-2 bg-white px-4 py-2 rounded-full text-sm font-semibold text-teal-700 shadow-sm w-fit mx-auto md:mx-0">
+              <Shield size={16} className="text-amber-500" />
+              100% Online Counseling for Gen-Z
+            </div>
+            <h1 className="text-5xl md:text-6xl font-extrabold text-teal-900 leading-tight">
+              A safe space for the <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-amber-500">messy & heavy.</span>
+            </h1>
+            <p className="text-lg text-teal-700/80 leading-relaxed max-w-lg mx-auto md:mx-0">
+              Relatable vibes, clinical heart. Healing isn't linear, but you don't have to walk it alone. 
+              Let's deconstruct the noise together.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 mt-4 justify-center md:justify-start">
+              <button 
+                onClick={() => scrollToSection('booking')}
+                className="bg-teal-800 hover:bg-teal-900 text-white px-8 py-4 rounded-full font-bold text-lg shadow-lg shadow-teal-900/20 transition-transform hover:-translate-y-1"
+              >
+                Book a Session
+              </button>
+              <button 
+                onClick={() => scrollToSection('about')}
+                className="bg-white hover:bg-amber-50 text-teal-800 border-2 border-teal-100 px-8 py-4 rounded-full font-bold text-lg transition-colors"
+              >
+                Meet Wagma
+              </button>
+            </div>
+          </div>
+          <div className="w-full md:w-1/2 relative">
+            <img 
+              src="Banner.png" 
+              alt="Dear Thought Art" 
+              className="w-full h-auto rounded-3xl shadow-2xl object-cover transform rotate-1 hover:rotate-0 transition-transform duration-500 border-4 border-white"
+            />
+            {/* Floating accent based on your palette */}
+            <div className="absolute -bottom-6 -left-6 bg-amber-400 w-24 h-24 rounded-full -z-10"></div>
+          </div>
+        </div>
+      </section>
+
+      {/* About Section */}
+      <section id="about" className="py-24 bg-white px-6">
+        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-16">
+          <div className="w-full md:w-5/12 relative">
+            <div className="aspect-square rounded-full overflow-hidden border-8 border-[#fdfbf7] shadow-xl relative z-10">
+              <img 
+                src="Picture.png" 
+                alt="Wagma Ali" 
+                className="w-full h-full object-cover"
+              />
+            </div>
+            {/* Design accents */}
+            <div className="absolute top-4 -right-4 w-full h-full rounded-full border-4 border-amber-300 -z-0"></div>
+            <div className="absolute -bottom-8 -left-8 bg-orange-100 w-32 h-32 rounded-full -z-0"></div>
+          </div>
+          
+          <div className="w-full md:w-7/12 flex flex-col gap-6">
+            <h2 className="text-sm font-bold tracking-widest text-orange-500 uppercase">Behind Dear Thought</h2>
+            <h3 className="text-4xl font-bold text-teal-900">Hi, I'm Wagma Ali.</h3>
+            <p className="text-lg text-teal-800/80 leading-relaxed">
+              I founded <strong>Dear Thought</strong> because finding therapy that actually understands the modern, Gen-Z experience in Pakistan shouldn't be so hard. I combine professional clinical practices with a relatable, human-first approach.
+            </p>
+            
+            <div className="bg-[#fdfbf7] p-6 rounded-2xl border border-amber-100 mt-4 flex flex-col gap-4">
+              <div className="flex items-start gap-4">
+                <div className="bg-amber-100 p-3 rounded-full text-amber-600 mt-1">
+                  <Globe2 size={24} />
+                </div>
+                <div>
+                  <h4 className="font-bold text-teal-900 text-lg">Languages I Speak</h4>
+                  <p className="text-teal-700">English, Urdu (اردو) & Pashto (پښتو)</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section id="testimonials" className="py-24 bg-[#fdfbf7] px-6 relative overflow-hidden">
+        <div className="max-w-6xl mx-auto relative z-10">
+          <div className="text-center max-w-2xl mx-auto mb-16">
+            <h2 className="text-sm font-bold tracking-widest text-orange-500 uppercase mb-3">Community Trust</h2>
+            <h3 className="text-4xl font-bold text-teal-900">Stories from the Safe Space</h3>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {testimonials.map((test, index) => (
+              <div key={index} className="bg-white p-8 rounded-3xl shadow-sm border border-teal-50 hover:shadow-md transition-shadow relative">
+                <div className="absolute -top-4 -right-4 text-amber-200 opacity-50">
+                  <svg width="80" height="80" fill="currentColor" viewBox="0 0 24 24"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/></svg>
+                </div>
+                <div className="flex gap-1 mb-4">
+                  {[...Array(test.rating)].map((_, i) => (
+                    <Star key={i} size={20} className="fill-amber-400 text-amber-400" />
+                  ))}
+                </div>
+                <p className="text-teal-800/80 italic mb-6 relative z-10 leading-relaxed">"{test.text}"</p>
+                <p className="font-bold text-teal-900">— {test.name}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Booking / Contact Section */}
+      <section id="booking" className="py-24 bg-teal-900 text-white px-6">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">Ready to deconstruct the noise?</h2>
+            <p className="text-teal-200 text-lg">Explore our catalogue to book. Healing isn't linear, but you don't have to walk it alone. 🌿</p>
+          </div>
+
+          <div className="bg-white text-teal-950 rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden">
+            {/* Card Background Decoration */}
+            <div className="absolute -top-24 -right-24 w-48 h-48 bg-amber-100 rounded-full mix-blend-multiply opacity-50"></div>
+            
+            <div className="relative z-10 flex flex-col gap-8">
+              <div className="border-b border-teal-100 pb-8">
+                <h3 className="text-2xl font-bold text-teal-900 mb-2 flex items-center gap-2">
+                  <span className="text-2xl">☁️</span> Dear Thought | Mental Health Collective
+                </h3>
+                <p className="text-teal-700 leading-relaxed">
+                  Safe space for the messy & heavy. 100% online counseling for Gen-Z Pakistan. Relatable vibes, clinical heart.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="space-y-6">
+                  <div className="flex gap-4">
+                    <div className="mt-1 bg-teal-50 p-3 rounded-full text-teal-600 h-fit">
+                      <Globe2 size={20} />
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-teal-900">Languages</h4>
+                      <p className="text-teal-700">English, Urdu (اردو) & Pashto (پښتو)</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex gap-4">
+                    <div className="mt-1 bg-teal-50 p-3 rounded-full text-teal-600 h-fit">
+                      <CalendarHeart size={20} />
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-teal-900">Booking Procedure</h4>
+                      <p className="text-teal-700">Sessions confirmed via advance payment.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-amber-50 p-6 rounded-2xl border border-amber-200">
+                  <div className="flex items-center gap-3 mb-4 text-amber-800">
+                    <CreditCard size={24} />
+                    <h4 className="font-bold text-lg">Payment Details</h4>
+                  </div>
+                  <div className="space-y-2 text-teal-900 font-mono text-sm break-all">
+                    <p><strong className="font-sans text-teal-700">Bank:</strong> UBL</p>
+                    <p><strong className="font-sans text-teal-700">Account Title:</strong> Wagma Ali</p>
+                    <p><strong className="font-sans text-teal-700">Account No:</strong> 1577281411195</p>
+                    <p><strong className="font-sans text-teal-700">IBAN:</strong> PK42UNIL0109000281411195</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-4 pt-8 border-t border-teal-100 text-center">
+                <p className="mb-4 text-teal-800 font-medium">To confirm your slot or ask questions, send a message directly!</p>
+                <a 
+                  href="https://wa.me/923435954833" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 bg-[#25D366] hover:bg-[#20bd5a] text-white px-8 py-4 rounded-full font-bold text-lg transition-transform hover:scale-105 shadow-lg shadow-green-500/30"
+                >
+                  <MessageCircle size={24} />
+                  Message on WhatsApp
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-teal-950 text-teal-400 py-8 text-center px-6">
+        <p>© {new Date().getFullYear()} Dear Thought by Wagma Ali. All rights reserved.</p>
+        <p className="text-sm mt-2 opacity-70">A safe space for the messy & heavy.</p>
+      </footer>
+
+      {/* Floating WhatsApp Button */}
+      <a 
+        href="https://wa.me/923435954833" 
+        target="_blank" 
+        rel="noopener noreferrer"
+        className="fixed bottom-6 right-6 bg-[#25D366] text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-transform z-50 group flex items-center justify-center"
+        aria-label="Chat on WhatsApp"
+      >
+        <span className="absolute w-full h-full rounded-full bg-[#25D366] opacity-50 animate-ping"></span>
+        <MessageCircle size={32} className="relative z-10" />
+      </a>
+      
+    </div>
+  );
+};
+
+export default App;
